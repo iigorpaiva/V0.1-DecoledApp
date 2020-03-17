@@ -27,13 +27,13 @@ import './App.css';
      .then(state => this.setLedStateG(state));
   }
 
-  handleStateChangeB(ledOn) {
+  handleStateChangeB(ledOnB) {
     fetch('/ledB', { method: 'PUT', body: ledOnB ? '0' : '1' })
       .then(response => response.text())
       .then(state => this.setLedStateB(state));
   }
 
-  handleStateChangeG(ledOn) {
+  handleStateChangeG(ledOnG) {
     fetch('/ledG', { method: 'PUT', body: ledOnG ? '0' : '1' })
       .then(response => response.text())
       .then(state => this.setLedStateG(state));
