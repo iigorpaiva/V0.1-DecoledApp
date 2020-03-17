@@ -4,25 +4,38 @@
 
 #define WIFI_SSID "ISAIAS"
 #define WIFI_PASSWORD "09068888"
-#define LED_BUILTIN 26
+#define LED_BLUE 26
+#define LED_GREEN 27
 
 WiFiServer server(80);
 Application app;
-bool ledOn;
+bool ledOnB;
+bool ledOnG;
 
-void readLed(Request &req, Response &res) {
-  res.print(ledOn);
+void readLedB(Request &req, Response &res) {
+  res.print(ledOnB);
 }
 
-void updateLed(Request &req, Response &res) {
-  ledOn = (req.read() != '0');
-  digitalWrite(LED_BUILTIN, ledOn);
-  return readLed(req, res);
+void readLedG(Request &req, Response &res) {
+  res.print(ledOnG);
+}
+
+void updateLedB(Request &req, Response &res) {
+  ledOnB = (req.read() != '0');
+  digitalWrite(LED_BLUE, ledOnB);
+  return readLedB(req, res);
+}
+
+void updateLedG(Request &req, Response &res) {
+  ledOnG = (req.read() != '0');
+  digitalWrite(LED_GREEN, ledOnG);
+  return readLedG(req, res);
 }
 
 void setup() {
   Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LED_BLUE, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
@@ -31,10 +44,14 @@ void setup() {
   }
   Serial.println(WiFi.localIP());
 
-  app.get("/led", &readLed);
+  app.get("/ledB", &readLedB);
+  app.get("/ledG", &readLedG);
+
 
   app.route(staticFiles());
-  app.put("/led", &updateLed);
+  
+  app.put("/ledB", &updateLedB);
+  app.put("/ledG", &updateLedG);
 
   server.begin();
 }

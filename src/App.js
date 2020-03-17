@@ -6,23 +6,37 @@ import './App.css';
  class App extends Component {
    constructor(props) {
     super(props);
-    this.state = { ledOn: false };
+    this.state = { ledOnB: false,
+                   ledOnG: false };
   }
 
-  setLedState(state){
-    this.setState({ ledOn: state !== '0' })
+  setLedStateB(state){
+    this.setState({ ledOnB: state !== '0' })
+  }
+
+  setLedStateG(state){
+    this.setState({ ledOnG: state !== '0' })
   }
 
   componentDidMount() {
-    fetch('/led')
+    fetch('/ledB')
      .then(response => response.text())
-     .then(state => this.setLedState(state));
+     .then(state => this.setLedStateB(state));
+    fetch('/ledG')
+     .then(response => response.text())
+     .then(state => this.setLedStateG(state));
   }
 
-  handleStateChange(ledOn) {
-    fetch('/led', { method: 'PUT', body: ledOn ? '0' : '1' })
+  handleStateChangeB(ledOn) {
+    fetch('/ledB', { method: 'PUT', body: ledOnB ? '0' : '1' })
       .then(response => response.text())
-      .then(state => this.setLedState(state));
+      .then(state => this.setLedStateB(state));
+  }
+
+  handleStateChangeG(ledOn) {
+    fetch('/ledG', { method: 'PUT', body: ledOnG ? '0' : '1' })
+      .then(response => response.text())
+      .then(state => this.setLedStateG(state));
   }
 
   render() {
@@ -31,8 +45,12 @@ import './App.css';
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <ToggleButton
-            value={this.state.ledOn}
-            onToggle={value => this.handleStateChange(value)}
+            value={this.state.ledOnB}
+            onToggle={value => this.handleStateChangeB(value)}
+          />
+          <ToggleButton
+            value={this.state.ledOnG}
+            onToggle={value => this.handleStateChangeG(value)}
           />
       </header>
     </div>
