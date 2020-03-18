@@ -44,6 +44,6 @@
     "exclude": [
       "*.map",
       "service-worker.js"
-  ]
+    ]
   }
 }
