@@ -44,6 +44,7 @@ import './App.css';
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Sala Principal</h1>
           <ToggleButton
             value={this.state.ledOnB}
             onToggle={value => this.handleStateChangeB(value)}
