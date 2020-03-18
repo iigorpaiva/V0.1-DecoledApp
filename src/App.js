@@ -1,61 +1,139 @@
-import React, { Component } from 'react';
-import ToggleButton from 'react-toggle-button';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import ToggleButton from "react-toggle-button";
+import logo from "./logo.svg";
+import "./App.css";
 
- class App extends Component {
-   constructor(props) {
+class App extends Component {
+  constructor(props) {
     super(props);
-    this.state = { ledOnB: false,
-                   ledOnG: false };
+    this.state = { ledon1: false, ledOn2: false,
+                   ledon3: false, ledOn4: false  };
   }
 
-  setLedStateB(state){
-    this.setState({ ledOnB: state !== '0' })
+  // SETA OS LEDS
+  setledstate1(state) {
+    this.setState({ ledon1: state !== "0" });
   }
 
-  setLedStateG(state){
-    this.setState({ ledOnG: state !== '0' })
+  setledstate2(state) {
+    this.setState({ ledon2: state !== "0" });
   }
 
+  setledstate3(state) {
+    this.setState({ ledon3: state !== "0" });
+  }
+
+  setledstate4(state) {
+    this.setState({ ledon4: state !== "0" });
+  }
+
+  // CHAMADO A APÓS O RENDER PARA GARANTIR QUE OS LEDS SERÃO SETADOS
   componentDidMount() {
-    fetch('/ledB')
-     .then(response => response.text())
-     .then(state => this.setLedStateB(state));
-    fetch('/ledG')
-     .then(response => response.text())
-     .then(state => this.setLedStateG(state));
+    fetch("/led1")
+      .then(response => response.text())
+      .then(state => this.setledstate1(state));
+    fetch("/led2")
+      .then(response => response.text())
+      .then(state => this.setledstate2(state));
+    fetch("/led3")
+      .then(response => response.text())
+      .then(state => this.setledstate3(state));
+    fetch("/led4")
+      .then(response => response.text())
+      .then(state => this.setledstate4(state));
   }
 
-  handleStateChangeB(ledOnB) {
-    fetch('/ledB', { method: 'PUT', body: ledOnB ? '0' : '1' })
+  handleStateChange1(ledon1) {
+    fetch("/led1", { method: "PUT", body: ledon1 ? "0" : "1" })
       .then(response => response.text())
-      .then(state => this.setLedStateB(state));
+      .then(state => this.setledstate1(state));
   }
 
-  handleStateChangeG(ledOnG) {
-    fetch('/ledG', { method: 'PUT', body: ledOnG ? '0' : '1' })
+  handleStateChange2(ledon2) {
+    fetch("/led2", { method: "PUT", body: ledon2 ? "0" : "1" })
       .then(response => response.text())
-      .then(state => this.setLedStateG(state));
+      .then(state => this.setledstate2(state));
+  }
+
+  handleStateChange3(ledon3) {
+    fetch("/led3", { method: "PUT", body: ledon3 ? "0" : "1" })
+      .then(response => response.text())
+      .then(state => this.setledstate3(state));
+  }
+
+  handleStateChange4(ledon4) {
+    fetch("/led4", { method: "PUT", body: ledon4 ? "0" : "1" })
+      .then(response => response.text())
+      .then(state => this.setledstate4(state));
   }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Sala Principal</h1>
-          <ToggleButton
-            value={this.state.ledOnB}
-            onToggle={value => this.handleStateChangeB(value)}
-          />
-          <ToggleButton
-            value={this.state.ledOnG}
-            onToggle={value => this.handleStateChangeG(value)}
-          />
-      </header>
-    </div>
-  );
+          <body data-spy="scroll" data-target="#lambda-navbar" data-offset="0">
+            <nav
+              class="navbar navbar-expand-md navbar-dark navbar-transparent fixed-top sticky-navigation"
+              id="lambda-navbar"
+            >
+              <a class="navbar-brand" href="">
+                Decoled App
+              </a>
+              <button
+                class="navbar-toggler navbar-toggler-right border-0"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarCollapse"
+                aria-controls="navbarCollapse"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span data-feather="menu"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                    <a class="nav-link page-scroll" href="#principal">
+                      Sala Principal
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link page-scroll" href="#hall">
+                      Hall
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </body>
+
+          <section class="App-trans" id="principal">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">Sala Principal</h1>
+            <ToggleButton
+              value={this.state.ledon1}
+              onToggle={value => this.handleStateChange1(value)}
+            />
+            <ToggleButton
+              value={this.state.ledon2}
+              onToggle={value => this.handleStateChange2(value)}
+            />
+          </section>
+          <section class="App-trans" id="hall">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">Hall</h1>
+            <ToggleButton
+              value={this.state.ledon3}
+              onToggle={value => this.handleStateChange3(value)}
+            />
+            <ToggleButton
+              value={this.state.ledon4}
+              onToggle={value => this.handleStateChange4(value)}
+            />
+          </section>
+        </header>
+      </div>
+    );
   }
 }
 
