@@ -94,7 +94,7 @@ class App extends Component {
                 <ul class="navbar-nav ml-auto">
                   <li class="nav-item">
                     <a class="nav-link page-scroll" href="#principal">
-                      Sala Principal
+                      Sala
                     </a>
                   </li>
                   <li class="nav-item">
@@ -109,7 +109,7 @@ class App extends Component {
 
           <section class="App-trans" id="principal">
             <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Sala Principal</h1>
+            <h1 className="App-title">Sala</h1>
             <ToggleButton
               value={this.state.ledon1}
               onToggle={value => this.handleStateChange1(value)}
